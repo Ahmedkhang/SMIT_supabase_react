@@ -1,11 +1,15 @@
 // import React from 'react'
 
-import StudentForm from "./components/StudentForm"
+// import DisplayStudents from "./components/DisplayStudents"
+import AppRouter from "./config/AppRouter"
+// import StudentForm from "./components/StudentForm"
 
 const App = () => {
   return (
-   <div className="w-screen h-screen flex justify-center items-center">
-    <StudentForm />
+   <div>
+    {/* <StudentForm /> */}
+    <AppRouter />
+
    </div>
   )
 }

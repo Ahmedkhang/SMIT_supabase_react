@@ -1,51 +1,82 @@
-// import React from 'react'
+import React, { useState } from "react";
+import supabase from "../dbConfig/db";
+import { Modal, message } from "antd"; // Ant Design imports
 
-import React, { useState } from "react"
-import supabase from "../dbConfig/db"
 const initialState = {
-        full_name:'',
-        age:'',
-        email:'',
-        // roll_number:''
-    }
-
-export default function StudentForm () {
-    const [formData,setFormData] = useState(initialState)
-
-    const handleChange = (e:any) => {
-  const { name, value } = e.target;
-
-  setFormData((prev) => ({
-    ...prev,
-    [name]: value
-  }));
+  name: "",
+  rollNumber: "",
 };
 
-     
-    const postStudentData = async(e:React.FormEvent) => {
-        e.preventDefault()
-        const { error } = await supabase.from('Students').insert([formData])
-        if(error){
-            alert(error)
-        }else{
-            alert('Data Saved Successfully')
-            setFormData(initialState)
-        }
+export default function StudentForm() {
+  const [formData, setFormData] = useState(initialState);
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const postStudentData = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!formData.name.trim() || !formData.rollNumber.trim()) {
+      Modal.warning({
+        title: "Missing Information",
+        content: "Please fill in both name and roll number.",
+      });
+      return;
     }
-    
+
+    const { error } = await supabase.from("Students").insert([formData]);
+
+    if (error) {
+      Modal.error({
+        title: "Error",
+        content: error.message || "Failed to save student",
+      });
+    } else {
+      message.success("Student added successfully!");
+      setFormData(initialState); // Reset form
+    }
+  };
+
   return (
-    <>
-    <form onSubmit={postStudentData}>
-        <div className="w-125 flex flex-col gap-5">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-8">
+        <h2 className="text-2xl font-bold text-center mb-8">Add New Student</h2>
 
-        <input type="text" name="full_name" placeholder="Full Name" value={formData.full_name} onChange={handleChange} />
-        <input type="number" name="age" placeholder="Age" value={formData.age} onChange={handleChange} />
-        <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} />
-        {/* <input type="number" name="roll_number" placeholder="Roll Number" value={formData.roll_number} onChange={handleChange} /> */}
+        <form onSubmit={postStudentData} className="flex flex-col gap-6">
+          <input
+            type="text"
+            name="name"
+            placeholder="Student Name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-blue-500 transition"
+          />
 
-        <button type="submit">Save</button>
-        </div>
-    </form>
-    </>
-  )
+          <input
+            type="number"
+            name="rollNumber"
+            placeholder="Roll Number"
+            value={formData.rollNumber}
+            onChange={handleChange}
+            required
+            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-blue-500 transition"
+          />
+
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded transition mt-4"
+          >
+            Save Student
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
