@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import supabase from "../dbConfig/db";
 import { Modal, message } from "antd"; // Ant Design simple popups
 
@@ -9,9 +9,7 @@ export default function Attendance() {
   const today = new Date().toISOString().split("T")[0];
 
   const isStudentExists = async () => {
-    const { data, error } = await supabase
-      .from("Students")
-      .select("rollNumber")
+    const { data, error } = await supabase.from("Students").select("rollNumber")
       .eq("rollNumber", rollNumber)
       .single();
 
@@ -26,9 +24,7 @@ export default function Attendance() {
   };
 
   const isPresentMarked = async () => {
-    const { data } = await supabase
-      .from("Attendance")
-      .select("*")
+    const { data } = await supabase.from("Attendance").select("*")
       .eq("rollNumber", rollNumber)
       .eq("date", today)
       .maybeSingle();
@@ -41,7 +37,7 @@ export default function Attendance() {
   };
 
   const markPresent = async () => {
-    if (!rollNumber.trim()) {
+    if (!rollNumber.trim()) {      // Roll Number Input Validation
       Modal.warning({
         title: "Input Required",
         content: "Please enter a roll number.",

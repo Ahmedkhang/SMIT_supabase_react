@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import supabase from "../dbConfig/db";
 import { Modal, message } from "antd"; // Import from antd
+// import { getUser } from "../dbfunction/dbfunctions";
+import { useNavigate } from "react-router";
 
 export default function DisplayStudents() {
   const [students, setStudents] = useState<any[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
 
   const getStudents = async () => {
     setLoading(true);
@@ -41,7 +45,21 @@ export default function DisplayStudents() {
   };
 
   useEffect(() => {
-    getStudents();
+   const checkAuth = async() =>{
+
+     supabase.auth.getUser().then(({ data }) => {
+       if(!data.user){
+          navigate('/login')
+          return;
+       }else{
+         getStudents();
+        //  navigate('/signup')
+
+      }
+    })
+  }
+  checkAuth()
+
   }, []);
 
   const filteredStudents = students.filter(

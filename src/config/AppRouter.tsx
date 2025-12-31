@@ -4,6 +4,7 @@ import StudentForm from '../components/StudentForm'
 import Home from '../pages/Home'
 import Attendance from '../components/Attendance'
 import SignupPage from '../components/SignupPage'
+import LoginPage from '../components/LoginPage'
 // import Home from '../pages/Home'
 // import Dashboard from '../pages/dashboardpages/Dashboard'
 // import ProtectedRoutes from '../components/ProtectedRoutes'
@@ -24,6 +25,7 @@ const AppRouter = () => {
     <Route element={<StudentForm />} path="/form" />
     <Route element={<Attendance />} path="/attendance" />
     <Route element={<SignupPage />} path="/signup" />
+    <Route element={<LoginPage />} path="/login" />
     {/* <Route element={<Users />} path="/dashboard/users" /> */}
     {/* <Route element={<ProtectedRoutes />}>
       <Route path='/dashboard' element={<DashboardLayout />}>

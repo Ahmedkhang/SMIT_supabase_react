@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import supabase from "../dbConfig/db";
 import { Modal, message } from "antd"; // Ant Design imports
 
@@ -66,12 +66,12 @@ export default function StudentForm() {
             value={formData.rollNumber}
             onChange={handleChange}
             required
-            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-blue-500 transition"
+            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:border-green-400 transition"
           />
 
           <button
             type="submit"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded transition mt-4"
+            className="bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded transition mt-4"
           >
             Save Student
           </button>

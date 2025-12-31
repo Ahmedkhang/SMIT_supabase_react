@@ -21,7 +21,9 @@ const CRUD = () => {
     const { data,error } = await supabase.from('task').select('*')
     setData(data || [])
     console.log(data);
-    
+    if(error){
+      alert(error.message)
+    }
   }
   const deleteData = async() => {
     const response = await supabase.from('task').delete().eq('status','working')
