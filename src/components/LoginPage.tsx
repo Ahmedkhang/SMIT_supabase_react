@@ -59,6 +59,7 @@ const signin = async(e:React.FormEvent) => {
           >
             Login
           </button>
+            <p onClick=navigate('/signup') className='text-center'>signup</p>
         </div>
       </form>
     </div>
